@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11201" systemVersion="15G1004" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11161"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="EHf-IW-A2E">
+            <objects>
+                <viewController id="01J-lp-oVM" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Llm-lL-Icb"/>
+                        <viewControllerLayoutGuide type="bottom" id="xb3-aO-Qok"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="world-map.jpg" translatesAutoresizingMaskIntoConstraints="NO" id="0EW-NI-SdQ"/>
+                            <view alpha="0.90000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mVT-Ad-LNC">
+                                <subviews>
+                                    <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logo-full.png" translatesAutoresizingMaskIntoConstraints="NO" id="Hjt-By-elV">
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="64" id="fNN-RO-v3z"/>
+                                            <constraint firstAttribute="width" constant="173" id="gs9-Yu-hW2"/>
+                                        </constraints>
+                                    </imageView>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8rg-di-l5G">
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="89" id="end-a4-vnA"/>
+                                            <constraint firstAttribute="width" constant="359" id="o2C-o1-DdH"/>
+                                        </constraints>
+                                        <string key="text">Translation Markup Language
+Samples</string>
+                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="pod &quot;TMLKit&quot;" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WVt-WV-iIA">
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="89" id="Ykr-7u-Bft"/>
+                                            <constraint firstAttribute="width" constant="359" id="yJF-hC-OCg"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="38"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.2035055268" green="0.21662926099999999" blue="0.52041030349999995" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstItem="WVt-WV-iIA" firstAttribute="centerX" secondItem="mVT-Ad-LNC" secondAttribute="centerX" id="IRD-ut-VS9"/>
+                                    <constraint firstAttribute="bottom" secondItem="8rg-di-l5G" secondAttribute="bottom" constant="8" id="OCI-ra-OXU"/>
+                                    <constraint firstItem="Hjt-By-elV" firstAttribute="top" secondItem="mVT-Ad-LNC" secondAttribute="top" constant="25" id="TfN-Dc-cpC"/>
+                                    <constraint firstItem="WVt-WV-iIA" firstAttribute="top" secondItem="Hjt-By-elV" secondAttribute="bottom" constant="160" id="fI8-x9-h1E"/>
+                                    <constraint firstItem="Hjt-By-elV" firstAttribute="centerX" secondItem="mVT-Ad-LNC" secondAttribute="centerX" id="fme-po-lc3"/>
+                                    <constraint firstItem="8rg-di-l5G" firstAttribute="centerX" secondItem="mVT-Ad-LNC" secondAttribute="centerX" id="jTX-pp-lZI"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="mVT-Ad-LNC" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="8rK-g1-gsD"/>
+                            <constraint firstAttribute="trailing" secondItem="mVT-Ad-LNC" secondAttribute="trailing" id="C8T-It-tYv"/>
+                            <constraint firstItem="0EW-NI-SdQ" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="GWZ-G8-nU0"/>
+                            <constraint firstItem="0EW-NI-SdQ" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="ST0-85-EYf"/>
+                            <constraint firstAttribute="trailing" secondItem="0EW-NI-SdQ" secondAttribute="trailing" id="b66-yG-gM7"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="0EW-NI-SdQ" secondAttribute="bottom" id="dmD-Bh-Xz3"/>
+                            <constraint firstItem="mVT-Ad-LNC" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="isd-vV-02b"/>
+                            <constraint firstItem="xb3-aO-Qok" firstAttribute="top" secondItem="mVT-Ad-LNC" secondAttribute="bottom" id="lEB-bR-fJr"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="52" y="374.66266866566718"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="logo-full.png" width="384" height="69"/>
+        <image name="world-map.jpg" width="1920" height="1056"/>
+    </resources>
+</document>
