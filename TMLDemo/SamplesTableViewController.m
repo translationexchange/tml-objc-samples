@@ -77,7 +77,7 @@
 
 - (void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     AppDelegate *appDelegate = (AppDelegate *) [UIApplication sharedApplication].delegate;
-
+    
     if (self.delegate) {
         DataViewController *controller = (DataViewController *) self.delegate;
         controller.sample = [appDelegate.samples objectAtIndex: indexPath.row];

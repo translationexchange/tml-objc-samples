@@ -73,6 +73,15 @@
 }
 
 - (void) initSamples {
+    TMLConfiguration *config = [[TML sharedInstance] configuration];
+    [config setDefaultTokenValue:@{@"font": @{@"name": @"Helvetica-Bold", @"size": @26}} forName:@"font1" type:TMLDecorationTokenType format:TMLAttributedTokenFormat];
+    [config setDefaultTokenValue:@{@"font": [UIFont fontWithName:@"Helvetica-Bold" size:26]} forName:@"font2" type:TMLDecorationTokenType format:TMLAttributedTokenFormat];
+    [config setDefaultTokenValue:@{@"font": @{@"name": @"system", @"size": @26, @"type": @"bold"}} forName:@"bold" type:TMLDecorationTokenType format:TMLAttributedTokenFormat];
+    [config setDefaultTokenValue:@{@"font": @{@"name": @"system", @"size": @26, @"type": @"italic"}} forName:@"italic" type:TMLDecorationTokenType format:TMLAttributedTokenFormat];
+    [config setDefaultTokenValue:@{@"color": @"red"} forName:@"red" type:TMLDecorationTokenType format:TMLAttributedTokenFormat];
+    [config setDefaultTokenValue:@{@"color": [UIColor greenColor]} forName:@"green" type:TMLDecorationTokenType format:TMLAttributedTokenFormat];
+
+    
     self.samples =
     @[
       @{
@@ -134,18 +143,18 @@
           },
       @{
           @"label": @"[font1: Adjust fonts] using an attribute dictionary.",
-          @"tokens": @{@"font1": @{@"font": @{@"name": @"ChalkboardSE-Bold", @"size": @14}}},
+          @"tokens": @{@"font1": @{@"font": @{@"name": @"Helvetica-Bold", @"size": @26}}},
           },
       @{
           @"label": @"Adjust fonts using the [font2: UIFont class].",
-          @"tokens": @{@"font2": @{@"font": [UIFont fontWithName:@"ChalkboardSE-Bold" size:14]}},
+          @"tokens": @{@"font2": @{@"font": [UIFont fontWithName:@"Helvetica-Bold" size:26]}},
           @"tokens_desc": @"{'font2': {'font': [UIFont fontWithName:@\"ChalkboardSE-Bold\" size:14]}",
           },
       @{
           @"label": @"System [bold: bold font] followed by [italic: italic font].",
           @"tokens": @{
-                  @"bold": @{@"font": @{@"name": @"system", @"size": @14, @"type": @"bold"}},
-                  @"italic": @{@"font": @{@"name": @"system", @"size": @14, @"type": @"italic"}}
+                  @"bold": @{@"font": @{@"name": @"system", @"size": @26, @"type": @"bold"}},
+                  @"italic": @{@"font": @{@"name": @"system", @"size": @26, @"type": @"italic"}}
                   }
           },
       @{
@@ -170,7 +179,7 @@
       @{
           @"label": @"You can [font1: mix fonts [font2: and colors] any way] you like.",
           @"tokens": @{
-                  @"font1": @{@"color": [UIColor grayColor], @"font": [UIFont fontWithName:@"ChalkboardSE-Bold" size:14]},
+                  @"font1": @{@"color": [UIColor grayColor], @"font": [UIFont fontWithName:@"Helvetica-Bold" size:26]},
                   @"font2": @{@"background-color": @"light-gray", @"color": @{@"red": @0.5, @"green": @0.2, @"blue": @0.7, @"alpha": @1}}
                   },
           @"tokens_desc": @"{'external: {'color': [UIColor grayColor], 'font': [UIFont fontWithName:@\"ChalkboardSE-Bold\" size:14]}, 'internal': {'color': {'red': 0.5, 'green': 0.2, 'blue': 0.7, 'alpha': 1}}}",
@@ -204,7 +213,7 @@
           @"tokens": @{
                   @"decor": @{
                           @"shadow": @{@"offset": @"1,1", @"radius": @"0.5", @"color": @"gray"},
-                          @"font": [UIFont fontWithName:@"ChalkboardSE-Bold" size:14],
+                          @"font": [UIFont fontWithName:@"Helvetica-Bold" size:26],
                           @"color": @"purple"
                           }
                   },
@@ -220,14 +229,14 @@
           @"label": @"You have [bold: {count|| message}]",
           @"tokens": @{
                   @"count": @1,
-                  @"bold": @{@"font": @{@"name": @"ChalkboardSE-Bold", @"size": @14}}
+                  @"bold": @{@"font": @{@"name": @"Helvetica-Bold", @"size": @26}}
                   },
           },
       @{
           @"label": @"You have [bold: {count|| message}]",
           @"tokens": @{
                   @"count": @5,
-                  @"bold": @{@"font": @{@"name": @"ChalkboardSE-Bold", @"size": @14}}
+                  @"bold": @{@"font": @{@"name": @"Helvetica-Bold", @"size": @26}}
                   }
           },
       @{
@@ -235,7 +244,7 @@
           @"tokens": @{
                   @"user": @{@"object": @{@"gender": @"male", @"name": @"Michael"}, @"property": @"name"},
                   @"count": @2,
-                  @"bold": @{@"font": @{@"name": @"ChalkboardSE-Bold", @"size": @14}}
+                  @"bold": @{@"font": @{@"name": @"Helvetica-Bold", @"size": @26}}
                   },
           },
       @{
@@ -254,7 +263,8 @@
           @"label": @"[bold: {actor}] tagged [bold: {target}] in a blog post.",
           @"tokens": @{
                   @"actor": TMLLocalizedString(@"Michael"),
-                  @"target": TMLLocalizedString(@"Anna")
+                  @"target": TMLLocalizedString(@"Anna"),
+                  @"bold": @{@"font": @{@"name": @"Helvetica-Bold", @"size": @26}}
                   }
           }
       

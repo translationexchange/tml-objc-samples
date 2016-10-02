@@ -31,6 +31,7 @@
 #import "DataViewController.h"
 #import <TMLKit/TML.h>
 #import "SamplesTableViewController.h"
+#import "AppDelegate.h"
 
 @interface DataViewController ()
 
@@ -40,7 +41,17 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view, typically from a nib.
+    
+    AppDelegate *appDelegate = (AppDelegate *) [UIApplication sharedApplication].delegate;
+    
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    NSOperationQueue *mainQueue = [NSOperationQueue mainQueue];
+    [center addObserverForName:TMLLanguageChangedNotification object:nil
+                         queue:mainQueue usingBlock:^(NSNotification *note) {
+                             [appDelegate initSamples];
+                             self.sample = [appDelegate.samples objectAtIndex:self.index];
+                             [self updateSample];
+                         }];
 }
 
 
@@ -53,73 +64,73 @@
 //  [self presentViewController:<#(nonnull UIViewController *)#> animated:YES completion:nil]
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
+- (void) updateSample {
+    if (!self.sample) return;
     
-    if (self.sample) {
+    NSString *method = @"TMLLocalizedAttributedString";
+    NSMutableArray *params = [NSMutableArray arrayWithObjects:@"label", nil];
+    
+    self.stringLabel.textColor = [UIColor whiteColor];
+    self.stringLabel.font = [UIFont fontWithName:@"Helvetica" size:15];
+    self.descriptionLabel.textColor = [UIColor whiteColor];
+    self.descriptionLabel.font = [UIFont fontWithName:@"Helvetica" size:15];
+    self.tokensTextView.textColor = [UIColor whiteColor];
+    self.tokensTextView.font = [UIFont fontWithName:@"Helvetica" size:15];
+    
+    self.dataLabel.textColor = [UIColor whiteColor];
+    self.dataLabel.font = [UIFont fontWithName:@"Helvetica" size:25];
+    self.dataLabel.textAlignment = NSTextAlignmentCenter;
+    
+    self.stringLabel.text = [NSString stringWithFormat:@"\"%@\"", [self.sample valueForKey:@"label"]];
+    
+    if ([self.sample valueForKey:@"description"]) {
+        self.dataLabel.attributedText = TMLLocalizedAttributedString([self.sample valueForKey:@"label"], [self.sample valueForKey:@"description"], [self.sample valueForKey:@"tokens"]);
+        self.descriptionLabel.text = [NSString stringWithFormat:@"\"%@\"", [self.sample valueForKey:@"description"]];
         
-        NSString *method = @"TMLLocalizedAttributedString";
-        NSMutableArray *params = [NSMutableArray arrayWithObjects:@"label", nil];
+        [params addObject:@"description"];
         
-        self.stringLabel.textColor = [UIColor whiteColor];
-        self.stringLabel.font = [UIFont fontWithName:@"Helvetica" size:15];
-        self.descriptionLabel.textColor = [UIColor whiteColor];
-        self.descriptionLabel.font = [UIFont fontWithName:@"Helvetica" size:15];
-        self.tokensTextView.textColor = [UIColor whiteColor];
-        self.tokensTextView.font = [UIFont fontWithName:@"Helvetica" size:15];
+        self.descriptionTitleLabel.hidden = NO;
+    } else {
+        self.dataLabel.attributedText = TMLLocalizedAttributedString([self.sample valueForKey:@"label"], [self.sample valueForKey:@"tokens"]);
+        self.descriptionLabel.text = @"";
         
-        self.dataLabel.textColor = [UIColor whiteColor];
-        self.dataLabel.font = [UIFont fontWithName:@"Helvetica" size:25];
-        self.dataLabel.textAlignment = NSTextAlignmentCenter;
-
-        self.stringLabel.text = [NSString stringWithFormat:@"\"%@\"", [self.sample valueForKey:@"label"]];
-        
-        if ([self.sample valueForKey:@"description"]) {
-            self.dataLabel.attributedText = TMLLocalizedAttributedString([self.sample valueForKey:@"label"], [self.sample valueForKey:@"description"], [self.sample valueForKey:@"tokens"]);
-            self.descriptionLabel.text = [NSString stringWithFormat:@"\"%@\"", [self.sample valueForKey:@"description"]];
-
-            [params addObject:@"description"];
-            
-            self.descriptionTitleLabel.hidden = NO;
-        } else {
-            self.dataLabel.attributedText = TMLLocalizedAttributedString([self.sample valueForKey:@"label"], [self.sample valueForKey:@"tokens"]);
-            self.descriptionLabel.text = @"";
-            
-            self.descriptionTitleLabel.hidden = YES;
-        }
-        
-        if ([self.sample objectForKey:@"tokens_desc"]) {
-            self.tokensTextView.text = [self.sample objectForKey:@"tokens_desc"];
-            [params addObject:@"tokens"];
-            
-            self.tokensTitleLabel.hidden = NO;
-            self.descriptionTitleLabel.hidden = NO;
-
-        } else if ([self.sample objectForKey:@"tokens"]) {
-            NSError *error;
-            NSData *jsonData = [NSJSONSerialization dataWithJSONObject: [self.sample objectForKey:@"tokens"]
-                                                               options: NSJSONWritingPrettyPrinted
-                                                                 error: &error];
-            
-            if (jsonData) {
-                self.tokensTextView.text = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-                [params addObject:@"tokens"];
-            }
-            
-            self.tokensTitleLabel.hidden = NO;
-            self.descriptionTitleLabel.hidden = NO;
-            
-        } else {
-            method = @"TMLLocalizedString";
-            self.tokensTextView.text = @"";
-            self.tokensTitleLabel.hidden = YES;
-        }
-
-        self.methodLabel.text = [NSString stringWithFormat:@"%@(%@)", method, [params componentsJoinedByString:@", "]];
-        self.indexLabel.text = [NSString stringWithFormat:@"%d/%d", (int) self.index + 1, (int) self.total];
-        
+        self.descriptionTitleLabel.hidden = YES;
     }
     
+    if ([self.sample objectForKey:@"tokens_desc"]) {
+        self.tokensTextView.text = [self.sample objectForKey:@"tokens_desc"];
+        [params addObject:@"tokens"];
+        
+        self.tokensTitleLabel.hidden = NO;
+        self.descriptionTitleLabel.hidden = NO;
+        
+    } else if ([self.sample objectForKey:@"tokens"]) {
+        NSError *error;
+        NSData *jsonData = [NSJSONSerialization dataWithJSONObject: [self.sample objectForKey:@"tokens"]
+                                                           options: NSJSONWritingPrettyPrinted
+                                                             error: &error];
+        
+        if (jsonData) {
+            self.tokensTextView.text = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
+            [params addObject:@"tokens"];
+        }
+        
+        self.tokensTitleLabel.hidden = NO;
+        self.descriptionTitleLabel.hidden = NO;
+        
+    } else {
+        method = @"TMLLocalizedString";
+        self.tokensTextView.text = @"";
+        self.tokensTitleLabel.hidden = YES;
+    }
+    
+    self.methodLabel.text = [NSString stringWithFormat:@"%@(%@)", method, [params componentsJoinedByString:@", "]];
+    self.indexLabel.text = [NSString stringWithFormat:@"%d/%d", (int) self.index + 1, (int) self.total];
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    [self updateSample];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
