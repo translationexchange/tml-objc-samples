@@ -5,6 +5,8 @@
 
 target 'TMLDemo' do
   pod "TMLKit", :git => 'https://github.com/translationexchange/tml-objc', :branch => 'dev'
+
+  pod "SDWebImage"
 end
 
 target 'TMLDemoTests' do

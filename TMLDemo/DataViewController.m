@@ -32,6 +32,7 @@
 #import <TMLKit/TML.h>
 #import "SamplesTableViewController.h"
 #import "AppDelegate.h"
+#import <TMLKit/TMLLanguage.h>
 
 @interface DataViewController ()
 
@@ -67,65 +68,80 @@
 - (void) updateSample {
     if (!self.sample) return;
     
-    NSString *method = @"TMLLocalizedAttributedString";
-    NSMutableArray *params = [NSMutableArray arrayWithObjects:@"label", nil];
+    TMLLanguage *language = TMLCurrentLanguage();
+    self.resultsTitle.text = [NSString stringWithFormat: @"%@ Translation", [language englishName]];
     
-    self.stringLabel.textColor = [UIColor whiteColor];
-    self.stringLabel.font = [UIFont fontWithName:@"Helvetica" size:15];
-    self.descriptionLabel.textColor = [UIColor whiteColor];
-    self.descriptionLabel.font = [UIFont fontWithName:@"Helvetica" size:15];
-    self.tokensTextView.textColor = [UIColor whiteColor];
-    self.tokensTextView.font = [UIFont fontWithName:@"Helvetica" size:15];
+    self.indexLabel.text = [NSString stringWithFormat:@"%d/%d", (int) self.index + 1, (int) self.total];
+
+    self.resultsLabel.textColor = [UIColor whiteColor];
+    self.resultsLabel.font = [UIFont fontWithName:@"Helvetica" size:28];
+
+    self.methodView.backgroundColor = [UIColor colorWithRed:0.98 green:0.96 blue:0.96 alpha:1.0];
+    self.methodLabel.textColor = [UIColor blackColor];
+    self.methodLabel.font = [UIFont fontWithName:@"Helvetica" size:16];
     
-    self.dataLabel.textColor = [UIColor whiteColor];
-    self.dataLabel.font = [UIFont fontWithName:@"Helvetica" size:25];
-    self.dataLabel.textAlignment = NSTextAlignmentCenter;
+    NSString *method = @"TMLLocalizedString";
     
-    self.stringLabel.text = [NSString stringWithFormat:@"\"%@\"", [self.sample valueForKey:@"label"]];
-    
-    if ([self.sample valueForKey:@"description"]) {
-        self.dataLabel.attributedText = TMLLocalizedAttributedString([self.sample valueForKey:@"label"], [self.sample valueForKey:@"description"], [self.sample valueForKey:@"tokens"]);
-        self.descriptionLabel.text = [NSString stringWithFormat:@"\"%@\"", [self.sample valueForKey:@"description"]];
-        
-        [params addObject:@"description"];
-        
-        self.descriptionTitleLabel.hidden = NO;
-    } else {
-        self.dataLabel.attributedText = TMLLocalizedAttributedString([self.sample valueForKey:@"label"], [self.sample valueForKey:@"tokens"]);
-        self.descriptionLabel.text = @"";
-        
-        self.descriptionTitleLabel.hidden = YES;
+    if ([self.sample valueForKey:@"attributed"]) {
+        method = @"TMLLocalizedAttributedString";
     }
     
-    if ([self.sample objectForKey:@"tokens_desc"]) {
-        self.tokensTextView.text = [self.sample objectForKey:@"tokens_desc"];
-        [params addObject:@"tokens"];
+    NSMutableAttributedString *methodCall = [[NSMutableAttributedString alloc]
+                                             initWithString: @""];
+    
+    if ([self.sample valueForKey:@"presets"]) {
+        [methodCall appendAttributedString: [[NSAttributedString alloc] initWithString: [self.sample valueForKey:@"presets"] attributes: @{NSForegroundColorAttributeName : [UIColor darkGrayColor]}]];
+
+        [methodCall appendAttributedString: [[NSAttributedString alloc] initWithString: @"\n\n\n"]];
+    }
+    
+    [methodCall appendAttributedString: [[NSAttributedString alloc] initWithString: method attributes: @{NSForegroundColorAttributeName : [UIColor colorWithRed:0.42 green:0.36 blue:0.36 alpha:1.0]}]];
+    
+    [methodCall appendAttributedString: [[NSAttributedString alloc] initWithString: @"(" attributes: @{NSForegroundColorAttributeName : [UIColor blackColor]}]];
+
+    [methodCall appendAttributedString: [[NSAttributedString alloc] initWithString: @"\n  "]];
+    
+    [methodCall appendAttributedString: [[NSAttributedString alloc] initWithString: @"@\"" attributes: @{NSForegroundColorAttributeName : [UIColor grayColor]}]];
+    [methodCall appendAttributedString: [[NSAttributedString alloc] initWithString: [self.sample objectForKey:@"label"] attributes: @{NSForegroundColorAttributeName : [UIColor blueColor]}]];
+    [methodCall appendAttributedString: [[NSAttributedString alloc] initWithString: @"\"" attributes: @{NSForegroundColorAttributeName : [UIColor grayColor]}]];
+
+    if ([self.sample valueForKey:@"description"]) {
+        [methodCall appendAttributedString: [[NSAttributedString alloc] initWithString: @", \n  " attributes: @{NSForegroundColorAttributeName : [UIColor grayColor]}]];
+        [methodCall appendAttributedString: [[NSAttributedString alloc] initWithString: @"@\"" attributes: @{NSForegroundColorAttributeName : [UIColor grayColor]}]];
+        [methodCall appendAttributedString: [[NSAttributedString alloc] initWithString: [self.sample objectForKey:@"description" ] attributes: @{NSForegroundColorAttributeName : [UIColor blueColor]} ]];
+        [methodCall appendAttributedString: [[NSMutableAttributedString alloc] initWithString: @"\"" attributes: @{NSForegroundColorAttributeName : [UIColor grayColor]}]];
         
-        self.tokensTitleLabel.hidden = NO;
-        self.descriptionTitleLabel.hidden = NO;
         
-    } else if ([self.sample objectForKey:@"tokens"]) {
+        self.resultsLabel.attributedText = TMLLocalizedAttributedString([self.sample objectForKey:@"label"], [self.sample objectForKey:@"description"], [self.sample valueForKey:@"tokens"]);
+    } else {
+        self.resultsLabel.attributedText = TMLLocalizedAttributedString([self.sample objectForKey:@"label"], [self.sample objectForKey:@"tokens"]);
+    }
+
+    NSString *tokens = [self.sample objectForKey:@"tokens_desc"];
+    if (!tokens && [self.sample valueForKey:@"tokens"]) {
         NSError *error;
         NSData *jsonData = [NSJSONSerialization dataWithJSONObject: [self.sample objectForKey:@"tokens"]
                                                            options: NSJSONWritingPrettyPrinted
                                                              error: &error];
-        
-        if (jsonData) {
-            self.tokensTextView.text = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
-            [params addObject:@"tokens"];
-        }
-        
-        self.tokensTitleLabel.hidden = NO;
-        self.descriptionTitleLabel.hidden = NO;
-        
-    } else {
-        method = @"TMLLocalizedString";
-        self.tokensTextView.text = @"";
-        self.tokensTitleLabel.hidden = YES;
+        tokens = [[NSString alloc] initWithData:jsonData encoding:NSUTF8StringEncoding];
     }
     
-    self.methodLabel.text = [NSString stringWithFormat:@"%@(%@)", method, [params componentsJoinedByString:@", "]];
-    self.indexLabel.text = [NSString stringWithFormat:@"%d/%d", (int) self.index + 1, (int) self.total];
+    if (tokens) {
+        NSError *error = nil;
+        NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"\\s\"" options:NSRegularExpressionCaseInsensitive error:&error];
+        tokens = [regex stringByReplacingMatchesInString:tokens options:0 range:NSMakeRange(0, [tokens length]) withTemplate:@" @\""];
+        regex = [NSRegularExpression regularExpressionWithPattern:@"\\{" options:NSRegularExpressionCaseInsensitive error:&error];
+        tokens = [regex stringByReplacingMatchesInString:tokens options:0 range:NSMakeRange(0, [tokens length]) withTemplate:@"@\\{"];
+
+        [methodCall appendAttributedString: [[NSAttributedString alloc] initWithString: @", " attributes: @{NSForegroundColorAttributeName : [UIColor grayColor]}]];
+        [methodCall appendAttributedString: [[NSAttributedString alloc] initWithString: tokens attributes: @{NSForegroundColorAttributeName : [UIColor darkGrayColor]}]];
+    } else {
+        [methodCall appendAttributedString: [[NSAttributedString alloc] initWithString: @"\n"]];
+    }
+        
+    [methodCall appendAttributedString: [[NSAttributedString alloc] initWithString: @");" attributes: @{NSForegroundColorAttributeName : [UIColor blackColor]}]];
+    
+    self.methodLabel.attributedText = methodCall;
 }
 
 - (void)viewWillAppear:(BOOL)animated {

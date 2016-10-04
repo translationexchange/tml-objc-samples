@@ -30,6 +30,7 @@
 
 #import "AppDelegate.h"
 #import <TMLKit/TML.h>
+#import "User.h"
 
 @interface AppDelegate ()
 
@@ -74,18 +75,20 @@
 
 - (void) initSamples {
     TMLConfiguration *config = [[TML sharedInstance] configuration];
-    [config setDefaultTokenValue:@{@"font": @{@"name": @"Helvetica-Bold", @"size": @26}} forName:@"font1" type:TMLDecorationTokenType format:TMLAttributedTokenFormat];
-    [config setDefaultTokenValue:@{@"font": [UIFont fontWithName:@"Helvetica-Bold" size:26]} forName:@"font2" type:TMLDecorationTokenType format:TMLAttributedTokenFormat];
-    [config setDefaultTokenValue:@{@"font": @{@"name": @"system", @"size": @26, @"type": @"bold"}} forName:@"bold" type:TMLDecorationTokenType format:TMLAttributedTokenFormat];
-    [config setDefaultTokenValue:@{@"font": @{@"name": @"system", @"size": @26, @"type": @"italic"}} forName:@"italic" type:TMLDecorationTokenType format:TMLAttributedTokenFormat];
+    [config setDefaultTokenValue:@{@"font": @{@"name": @"Helvetica-Bold", @"size": @28}} forName:@"font1" type:TMLDecorationTokenType format:TMLAttributedTokenFormat];
+    [config setDefaultTokenValue:@{@"font": [UIFont fontWithName:@"Helvetica-Bold" size:28]} forName:@"font2" type:TMLDecorationTokenType format:TMLAttributedTokenFormat];
+    [config setDefaultTokenValue:@{@"font": @{@"name": @"system", @"size": @28, @"type": @"bold"}} forName:@"bold" type:TMLDecorationTokenType format:TMLAttributedTokenFormat];
+    [config setDefaultTokenValue:@{@"font": @{@"name": @"system", @"size": @28, @"type": @"italic"}} forName:@"italic" type:TMLDecorationTokenType format:TMLAttributedTokenFormat];
     [config setDefaultTokenValue:@{@"color": @"red"} forName:@"red" type:TMLDecorationTokenType format:TMLAttributedTokenFormat];
     [config setDefaultTokenValue:@{@"color": [UIColor greenColor]} forName:@"green" type:TMLDecorationTokenType format:TMLAttributedTokenFormat];
-
+    
+    User *anna = [[User alloc] initWithName: @"Anna" gender: @"female" age: @"25"];
+    User *peter = [[User alloc] initWithName: @"Peter" gender: @"male" age: @"18"];
     
     self.samples =
     @[
       @{
-          @"label": @"Hello World"
+          @"label": @"Hello World",
           },
       @{
           @"label": @"Eats shoots and leaves",
@@ -96,120 +99,229 @@
           @"description": @"A violent restaurant patron"
           },
       @{
-          @"label": @"Hello [green: {user}]",
-          @"tokens": @{@"user": @"Michael", @"green": @{@"color": @"green"}}
+          @"label": @"Hello <bold>World</bold>",
+          @"attributed": @true,
+          },
+      @{
+          @"label": @"Hello [bold: World]"
+          },
+      @{
+          @"presets": @"TMLConfiguration *config = [[TML sharedInstance] configuration];\n\n[config setDefaultTokenValue:@{@\"color\": @\"red\"} forName:@\"red\"];",
+          @"label": @"Hello <red>World</red>",
+          @"attributed": @true,
+          },
+      @{
+          @"label": @"[indent: Adjust fonts] using an attribute dictionary.",
+          @"tokens": @{@"indent": @{@"font": @{@"name": @"Helvetica-Bold", @"size": @26}}},
+          @"attributed": @true,
+          },
+      @{
+          @"label": @"Hello {user}",
+          @"tokens": @{@"user": @"Michael"}
+          },
+      @{
+          @"label": @"Hello [indent: {user}]",
+          @"tokens": @{@"user": @"Michael", @"indent": @{@"color": @"red"}},
+          @"attributed": @true,
           },
       @{
           @"label": @"Do you speak {language}?",
           @"tokens": @{
                   @"language": TMLLocalizedString(@"English")
                   },
+          @"tokens_desc": @"{\n  @\"language\" : TMLLocalizedString(@\"English\")\n}",
           },
       @{
-          @"label": @"Number of messages: {count}",
+          @"presets": @"User *anna = [[User alloc] initWithName: @\"Anna\" age: 25];",
+          @"label": @"{user.name} just turned {user.age} years old",
+          @"tokens": @{@"user": anna},
+          @"tokens_desc": @"{\n  @\"user\" : anna\n}"
+          },
+      @{
+          @"label": @"You have messages: {count}",
           @"tokens": @{@"count": @5}
           },
       @{
-          @"label": @"Hello {user.name}, you are a {user.gender}",
-          @"tokens": @{@"user": @{@"object": @{@"gender": @"male", @"name": @"Michael"}, @"property": @"name"}},
-          @"tokens_desc": @"{\"user\": michael}"
-          },
-      @{
-          @"label": @"You have {count||message}",
+          @"label": @"You have {count || one: message, other: messages}",
           @"tokens": @{@"count": @1}
           },
       @{
-          @"label": @"You have {count||message}",
+          @"label": @"You have {count || message, messages}",
+          @"tokens": @{@"count": @1}
+          },
+      @{
+          @"label": @"You have {count || message}",
           @"tokens": @{@"count": @3}
           },
       @{
-          @"label": @"You have {count| one message, #count# messages}",
+          @"label": @"You have {count | a message, #count# messages}",
           @"tokens": @{@"count": @1}
           },
       @{
-          @"label": @"You have {count| one message, #count# messages}",
-          @"tokens": @{@"count": @2}
+          @"label": @"You have {count | a message, #count# messages}",
+          @"tokens": @{@"count": @3}
           },
       @{
-          @"label": @"{user| He, She} likes this movie.",
+          @"label": @"You have [red: {count}] {count | message}",
+          @"tokens": @{@"count": @3, @"red": @{@"color": @"red"}},
+          @"attributed": @true,
+          },
+      @{
+          @"presets": @"User *peter = [[User alloc] initWithName: @\"Peter\" gender: @\"male\"];",
+          @"label": @"{user} liked this post.",
+          @"tokens": @{@"user": peter},
+          @"tokens_desc": @"{\n  @\"user\" : peter\n}"
+          },
+      @{
+          @"presets": @"User *anna = [[User alloc] initWithName: @\"Anna\" gender: @\"female\"];",
+          @"label": @"{user | He, She} liked this post.",
+          @"tokens": @{@"user": anna},
+          @"tokens_desc": @"{\n  @\"user\" : anna\n}"
+          },
+      @{
+          @"label": @"{user | He, She} liked this movie.",
           @"tokens": @{@"user": @{@"gender": @"male"}},
           },
       @{
-          @"label": @"{user} uploaded {count|| photo} to {user| his, her} photo album.",
+          @"presets": @"User *peter = [[User alloc] initWithName: @\"Peter\" gender: @\"male\"];",
+          @"label": @"{user} uploaded {count || photo} to {user | his, her} photo album.",
           @"tokens": @{
-                  @"user": @{@"object": @{@"gender": @"male", @"name": @"Michael"}, @"property": @"name"},
+                  @"user": peter,
                   @"count": @2
+                  },
+          @"tokens_desc": @"{\n  @\"user\" : peter\n}"
+          },
+      
+      
+      @{
+          @"label": @"[underline: {user}] uploaded [indent: {count || photo}] to [underline: {user | his, her} photo album].",
+          @"tokens": @{
+                  @"user": @{@"gender": @"male", @"value": @"Michael"},
+                  @"count": @2,
+                  @"underline": @{@"underline": @"single"},
+                  @"indent": @{@"font": @{@"name": @"Helvetica-Bold", @"size": @18}, @"color": @"red"}
+                  },
+          @"attributed": @true,
+          },
+      
+      
+      @{
+          @"presets": @"User *peter = [[User alloc] initWithName: @\"Peter\" gender: @\"male\"];\nUser *anna = [[User alloc] initWithName: @\"Anna\" gender: @\"female\"];",
+          @"label": @"{actor} added [bold: {count || photo}] to {target::pos} photo album.",
+          @"tokens": @{
+                  @"actor": peter,
+                  @"target": anna,
+                  @"count": @3
+                  },
+          @"tokens_desc": @"{\n  @\"actor\" : peter\n  @\"target\" : anna\n  @\"count\" : @3\n}"
+          },
+
+      @{
+          @"presets": @"User *peter = [[User alloc] initWithName: @\"Peter\" gender: @\"male\"];\nUser *anna = [[User alloc] initWithName: @\"Anna\" gender: @\"female\"];",
+          @"label": @"{actor} added [bold: {count || photo}] to {target::pos} photo album.",
+          @"tokens": @{
+                  @"actor": anna,
+                  @"target": peter,
+                  @"count": @3
+                  },
+          @"tokens_desc": @"{\n  @\"actor\" : anna\n  @\"target\" : peter\n  @\"count\" : @3\n}",
+          @"attributed": @true,
+          },
+      
+      @{
+          @"label": @"{actor} tagged {target} in {actor | his, her} blog post.",
+          @"tokens": @{
+                  @"actor": @{@"value": TMLLocalizedString(@"Michael"), @"gender": @"male"},
+                  @"target": @{@"value": TMLLocalizedString(@"Anna"), @"gender": @"female"},
                   }
           },
+
       @{
-          @"label": @"[font1: Adjust fonts] using an attribute dictionary.",
-          @"tokens": @{@"font1": @{@"font": @{@"name": @"Helvetica-Bold", @"size": @26}}},
+          @"label": @"{actor} tagged {target} in {actor | his, her} blog post.",
+          @"tokens": @{
+                  @"target": @{@"value": TMLLocalizedString(@"Michael"), @"gender": @"male"},
+                  @"actor": @{@"value": TMLLocalizedString(@"Anna"), @"gender": @"female"},
+                  }
           },
+      
       @{
           @"label": @"Adjust fonts using the [font2: UIFont class].",
           @"tokens": @{@"font2": @{@"font": [UIFont fontWithName:@"Helvetica-Bold" size:26]}},
           @"tokens_desc": @"{'font2': {'font': [UIFont fontWithName:@\"ChalkboardSE-Bold\" size:14]}",
+          @"attributed": @true,
           },
       @{
           @"label": @"System [bold: bold font] followed by [italic: italic font].",
           @"tokens": @{
                   @"bold": @{@"font": @{@"name": @"system", @"size": @26, @"type": @"bold"}},
                   @"italic": @{@"font": @{@"name": @"system", @"size": @26, @"type": @"italic"}}
-                  }
+                  },
+          @"attributed": @true,
+          
           },
       @{
           @"label": @"[red: Color] can be changed using a dictionary.",
-          @"tokens": @{@"red": @{@"color": @"red"}}
+          @"tokens": @{@"red": @{@"color": @"red"}},
+          @"attributed": @true,
           },
       @{
           @"label": @"Color [green: can also be changed] using a UIColor class.",
           @"tokens": @{@"green": @{@"color": [UIColor greenColor]}},
-          @"tokens_desc": @"{'green: {'color': [UIColor greenColor]}"
+          @"tokens_desc": @"{'green: {'color': [UIColor greenColor]}",
+          @"attributed": @true,
           },
       @{
           @"label": @"You can even [external: overlap colors and [internal: use RGB] color scheme].",
           @"tokens": @{@"external": @{@"color": [UIColor grayColor]},
                        @"internal": @{@"color": @{@"red": @0.5, @"green": @0.2, @"blue": @0.7, @"alpha": @1}}},
           @"tokens_desc": @"{'external: {'color': [UIColor grayColor]}, 'internal': {'color': {'red': 0.5, 'green': 0.2, 'blue': 0.7, 'alpha': 1}}}",
+          @"attributed": @true,
           },
       @{
           @"label": @"[purple: Background color] can also be changed using the same methods.",
           @"tokens": @{@"purple": @{@"background-color": @"purple", @"color": @"white"}},
+          @"attributed": @true,
           },
       @{
-          @"label": @"You can [font1: mix fonts [font2: and colors] any way] you like.",
+          @"label": @"You can [font1: mix fonts [font2: and colors] in any way] you like.",
           @"tokens": @{
                   @"font1": @{@"color": [UIColor grayColor], @"font": [UIFont fontWithName:@"Helvetica-Bold" size:26]},
                   @"font2": @{@"background-color": @"light-gray", @"color": @{@"red": @0.5, @"green": @0.2, @"blue": @0.7, @"alpha": @1}}
                   },
           @"tokens_desc": @"{'external: {'color': [UIColor grayColor], 'font': [UIFont fontWithName:@\"ChalkboardSE-Bold\" size:14]}, 'internal': {'color': {'red': 0.5, 'green': 0.2, 'blue': 0.7, 'alpha': 1}}}",
+          @"attributed": @true,
           },
       @{
           @"label": @"You can [under: underline any part] of text.",
-          @"tokens": @{@"under": @{@"underline": @"single"}}
+          @"tokens": @{@"under": @{@"underline": @"single"}},
+          @"attributed": @true,
           },
       @{
           @"label": @"You can even indicate [under: the thickness and pattern] of the line.",
           @"tokens": @{
                   @"under": @{@"underline": @{@"style": @"thick", @"pattern": @"dot", @"byword": @"true", @"color": @"blue"}}
                   },
+          @"attributed": @true,
           },
       @{
           @"label": @"You can [strike: use a strike-through] as well.",
-          @"tokens": @{@"strike": @{@"strike": @"1"}}
+          @"tokens": @{@"strike": @{@"strike": @"1"}},
+          @"attributed": @true,
           },
       @{
           @"label": @"You can indicate the [strike: strike-through color and thickness].",
-          @"tokens": @{@"strike": @{@"strike": @{@"thickness": @"3", @"color": @"purple"}}}
+          @"tokens": @{@"strike": @{@"strike": @{@"thickness": @"3", @"color": @"purple"}}},
+          @"attributed": @true,
           },
       @{
           @"label": @"[shadow: Shadows] are also very easy to add.",
           @"tokens": @{
                   @"shadow": @{@"shadow": @{@"offset": @"1,1", @"radius": @"0.5", @"color": @"gray"}}
                   },
+          @"attributed": @true,
           },
       @{
-          @"label": @"You can mix [decor: fonts, colors and shadows] are also very easy to add.",
+          @"label": @"You can mix [decor: fonts, colors and shadows].",
           @"tokens": @{
                   @"decor": @{
                           @"shadow": @{@"offset": @"1,1", @"radius": @"0.5", @"color": @"gray"},
@@ -218,55 +330,13 @@
                           }
                   },
           @"tokens_desc": @"{'shadow': {'offset': '1,1', 'radius': '0.5', 'color': 'gray'}}",
+          @"attributed": @true,
           },
       @{
           @"label": @"[bold: Adjust fonts] using default decorations.",
           @"tokens_desc": @"Using default decorations",
-          @"tokens": @{}
+          @"attributed": @true,
           },
-      
-      @{
-          @"label": @"You have [bold: {count|| message}]",
-          @"tokens": @{
-                  @"count": @1,
-                  @"bold": @{@"font": @{@"name": @"Helvetica-Bold", @"size": @26}}
-                  },
-          },
-      @{
-          @"label": @"You have [bold: {count|| message}]",
-          @"tokens": @{
-                  @"count": @5,
-                  @"bold": @{@"font": @{@"name": @"Helvetica-Bold", @"size": @26}}
-                  }
-          },
-      @{
-          @"label": @"[bold: {user}] uploaded [bold: {count|| photo}] to {user| his, her} photo album.",
-          @"tokens": @{
-                  @"user": @{@"object": @{@"gender": @"male", @"name": @"Michael"}, @"property": @"name"},
-                  @"count": @2,
-                  @"bold": @{@"font": @{@"name": @"Helvetica-Bold", @"size": @26}}
-                  },
-          },
-      @{
-          @"label": @"[red: {actor}] added [blue: {count||photo}] to [purple: {target::pos} album].",
-          @"tokens": @{
-                  @"actor": @"Michael",
-                  @"target": @"Jenny",
-                  @"count": @3,
-                  @"red": @{@"color": @"red"},
-                  @"blue": @{@"color": @"blue"},
-                  @"purple": @{@"color": @"purple"},
-                  }
-          },
-      
-      @{
-          @"label": @"[bold: {actor}] tagged [bold: {target}] in a blog post.",
-          @"tokens": @{
-                  @"actor": TMLLocalizedString(@"Michael"),
-                  @"target": TMLLocalizedString(@"Anna"),
-                  @"bold": @{@"font": @{@"name": @"Helvetica-Bold", @"size": @26}}
-                  }
-          }
       
       ];
 }

@@ -32,18 +32,11 @@
 
 @interface DataViewController : UIViewController
 
-@property (strong, nonatomic) IBOutlet UILabel *dataLabel;
-@property (weak, nonatomic) IBOutlet UILabel *stringLabel;
-@property (weak, nonatomic) IBOutlet UILabel *descriptionLabel;
-@property (weak, nonatomic) IBOutlet UITextView *tokensTextView;
-
-@property (weak, nonatomic) IBOutlet UILabel *methodLabel;
-
-@property (weak, nonatomic) IBOutlet UILabel *stringTitleLabel;
-@property (weak, nonatomic) IBOutlet UILabel *descriptionTitleLabel;
-@property (weak, nonatomic) IBOutlet UILabel *tokensTitleLabel;
-
+@property (strong, nonatomic) IBOutlet UILabel *resultsLabel;
 @property (weak, nonatomic) IBOutlet UILabel *indexLabel;
+@property (weak, nonatomic) IBOutlet UILabel *methodLabel;
+@property (weak, nonatomic) IBOutlet UIView *methodView;
+@property (weak, nonatomic) IBOutlet UILabel *resultsTitle;
 
 @property (strong, nonatomic) id sample;
 @property (nonatomic) NSInteger index;
