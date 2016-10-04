@@ -32,8 +32,8 @@
                                             <constraint firstAttribute="height" constant="89" id="end-a4-vnA"/>
                                             <constraint firstAttribute="width" constant="359" id="o2C-o1-DdH"/>
                                         </constraints>
-                                        <string key="text">Translation Markup Language
-Samples</string>
+                                        <string key="text">Introduction To 
+Translation Markup Language</string>
                                         <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -47,15 +47,26 @@ Samples</string>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
                                     </label>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="www.translationexchange.com" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UXb-wZ-VuP">
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="89" id="asV-cO-Gkc"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
                                 </subviews>
                                 <color key="backgroundColor" red="0.2035055268" green="0.21662926099999999" blue="0.52041030349999995" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
+                                    <constraint firstItem="UXb-wZ-VuP" firstAttribute="leading" secondItem="mVT-Ad-LNC" secondAttribute="leading" constant="8" id="CTT-b0-kb6"/>
                                     <constraint firstItem="WVt-WV-iIA" firstAttribute="centerX" secondItem="mVT-Ad-LNC" secondAttribute="centerX" id="IRD-ut-VS9"/>
-                                    <constraint firstAttribute="bottom" secondItem="8rg-di-l5G" secondAttribute="bottom" constant="8" id="OCI-ra-OXU"/>
+                                    <constraint firstAttribute="bottom" secondItem="UXb-wZ-VuP" secondAttribute="bottom" constant="8" id="MSW-RQ-P9l"/>
                                     <constraint firstItem="Hjt-By-elV" firstAttribute="top" secondItem="mVT-Ad-LNC" secondAttribute="top" constant="25" id="TfN-Dc-cpC"/>
-                                    <constraint firstItem="WVt-WV-iIA" firstAttribute="top" secondItem="Hjt-By-elV" secondAttribute="bottom" constant="160" id="fI8-x9-h1E"/>
+                                    <constraint firstItem="8rg-di-l5G" firstAttribute="top" secondItem="Hjt-By-elV" secondAttribute="bottom" constant="123" id="Y9n-9X-pGC"/>
                                     <constraint firstItem="Hjt-By-elV" firstAttribute="centerX" secondItem="mVT-Ad-LNC" secondAttribute="centerX" id="fme-po-lc3"/>
                                     <constraint firstItem="8rg-di-l5G" firstAttribute="centerX" secondItem="mVT-Ad-LNC" secondAttribute="centerX" id="jTX-pp-lZI"/>
+                                    <constraint firstAttribute="trailing" secondItem="UXb-wZ-VuP" secondAttribute="trailing" constant="8" id="jsO-Lq-5Dk"/>
+                                    <constraint firstItem="WVt-WV-iIA" firstAttribute="top" secondItem="8rg-di-l5G" secondAttribute="bottom" constant="77" id="lR8-Bv-fcn"/>
                                 </constraints>
                             </view>
                         </subviews>

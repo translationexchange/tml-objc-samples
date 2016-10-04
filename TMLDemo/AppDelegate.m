@@ -77,7 +77,7 @@
     TMLConfiguration *config = [[TML sharedInstance] configuration];
     [config setDefaultTokenValue:@{@"font": @{@"name": @"Helvetica-Bold", @"size": @28}} forName:@"font1" type:TMLDecorationTokenType format:TMLAttributedTokenFormat];
     [config setDefaultTokenValue:@{@"font": [UIFont fontWithName:@"Helvetica-Bold" size:28]} forName:@"font2" type:TMLDecorationTokenType format:TMLAttributedTokenFormat];
-    [config setDefaultTokenValue:@{@"font": @{@"name": @"system", @"size": @28, @"type": @"bold"}} forName:@"bold" type:TMLDecorationTokenType format:TMLAttributedTokenFormat];
+    [config setDefaultTokenValue:@{@"font": @{@"name": @"Helvetica-Bold", @"size": @30}} forName:@"bold" type:TMLDecorationTokenType format:TMLAttributedTokenFormat];
     [config setDefaultTokenValue:@{@"font": @{@"name": @"system", @"size": @28, @"type": @"italic"}} forName:@"italic" type:TMLDecorationTokenType format:TMLAttributedTokenFormat];
     [config setDefaultTokenValue:@{@"color": @"red"} forName:@"red" type:TMLDecorationTokenType format:TMLAttributedTokenFormat];
     [config setDefaultTokenValue:@{@"color": [UIColor greenColor]} forName:@"green" type:TMLDecorationTokenType format:TMLAttributedTokenFormat];
@@ -288,7 +288,7 @@
                   @"font1": @{@"color": [UIColor grayColor], @"font": [UIFont fontWithName:@"Helvetica-Bold" size:26]},
                   @"font2": @{@"background-color": @"light-gray", @"color": @{@"red": @0.5, @"green": @0.2, @"blue": @0.7, @"alpha": @1}}
                   },
-          @"tokens_desc": @"{'external: {'color': [UIColor grayColor], 'font': [UIFont fontWithName:@\"ChalkboardSE-Bold\" size:14]}, 'internal': {'color': {'red': 0.5, 'green': 0.2, 'blue': 0.7, 'alpha': 1}}}",
+          @"tokens_desc": @"  {\n  @\"font1\": {\n    @\"color\" : [UIColor grayColor],\n    @\"font\" : [UIFont fontWithName:@\"ChalkboardSE-Bold\" size:14]\n},\n  @\"font2\"  :  {\n    @\"color\" : {\n      @\"red\" : 0.5,\n      @\"green\": 0.2,\n      @\"blue\": 0.7,\n      @\"alpha\": 1\n    }\n  }\n}",
           @"attributed": @true,
           },
       @{
@@ -316,7 +316,7 @@
       @{
           @"label": @"[shadow: Shadows] are also very easy to add.",
           @"tokens": @{
-                  @"shadow": @{@"shadow": @{@"offset": @"1,1", @"radius": @"0.5", @"color": @"gray"}}
+                  @"shadow": @{@"shadow": @{@"offset": @"1,1", @"radius": @"0.5", @"color": @"blue"}}
                   },
           @"attributed": @true,
           },
@@ -329,15 +329,9 @@
                           @"color": @"purple"
                           }
                   },
-          @"tokens_desc": @"{'shadow': {'offset': '1,1', 'radius': '0.5', 'color': 'gray'}}",
+          @"tokens_desc": @"{\n  @\"decor\": {\n    @\"shadow\": {\n      @\"offset\": @\"1,1\",\n      @\"radius\": @\"0.5\", \n      @\"color\": @\"gray\"\n    },\n    @\"font\": [UIFont fontWithName:@\"Helvetica-Bold\" size:26], \n    @\"color\": @\"purple\"\n  }\n}",
           @"attributed": @true,
-          },
-      @{
-          @"label": @"[bold: Adjust fonts] using default decorations.",
-          @"tokens_desc": @"Using default decorations",
-          @"attributed": @true,
-          },
-      
+          }
       ];
 }
 

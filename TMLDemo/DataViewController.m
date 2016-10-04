@@ -58,11 +58,6 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (IBAction)samplesMenuTouched:(id)sender {
-//  [self presentViewController:<#(nonnull UIViewController *)#> animated:YES completion:nil]
 }
 
 - (void) updateSample {
@@ -147,6 +142,10 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     [self updateSample];
+}
+
+- (IBAction)languageTouched:(id)sender {
+    [[TML sharedInstance] presentLanguageSelectorController];
 }
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
