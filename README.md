@@ -16,16 +16,17 @@ To get it running, follow these steps:
 
 Launch the app. 
 
-In order to be able to translate items in-context, you should register a new app at:
+In order to translate strings in-context, you should register a new project under you account at:
 
 https://dashboard.translationexchange.com
 
-Once you create a new project, copy your application key and update inside the main.c file.
+Once you create a new project, copy your application key and update it inside the main.c file.
 
-To activate translation mode on the device, press 4 fingers down.
+To activate translation mode on your device, press 4 fingers down.
 
-To activate translation mode in simulator, press option + click.
+To activate translation mode in a simulator, press option + click.
 
+Once translation mode is activated, tap and hold on any string in your application to bring up the in-context translator.
 
 
 Links
