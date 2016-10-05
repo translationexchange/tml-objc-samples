@@ -199,7 +199,7 @@
                   @"user": @{@"gender": @"male", @"value": @"Michael"},
                   @"count": @2,
                   @"underline": @{@"underline": @"single"},
-                  @"indent": @{@"font": @{@"name": @"Helvetica-Bold", @"size": @18}, @"color": @"red"}
+                  @"indent": @{@"font": @{@"name": @"Helvetica-Bold", @"size": @26}, @"color": @"red"}
                   },
           @"attributed": @true,
           },
